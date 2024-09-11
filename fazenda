@@ -1,0 +1,32 @@
+#include  <IRremote.h>  //      inclui a Biblioteca
+  
+int (RECV_PIN)= 3;       //pino que recebe o sinal 
+IRrecv irrecv(RECV_PIN);
+decode_results results;
+const int LED1 =13;      //pino para acionar o LED
+
+void setup()
+{
+ serial.begin(9600);
+ irrecv.enableIRin();
+ pinmode(LED1,OUTPUT);      //LED sera de saida
+}
+
+void loop()
+{
+ if(irrecv.decode(&results)) // se receber algum sinal
+ {
+  serial.println(results.value,HEX); //mostrar o sinal recebido
+  irrecv.resume();
+  
+  if (results.value==0xE7FA1E06)//tecla 1 obs:cada tecla possui um codigo,
+  {                         //       deve-se adicionar 0x
+   digitalwrite(LED1,HIGH);
+   }
+   if(results.value==0xE7FA1E06) //tecla 2
+   {
+     degitalwrite(LED1,LOW);
+    }
+   
+     }
+   }
